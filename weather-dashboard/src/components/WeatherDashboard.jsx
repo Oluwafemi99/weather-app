@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios"; // Axios for API requests
-// import SearchBar from "./components/SearchBar";
+import SearchBar from "./SearchBar.jsx";
 import WeatherCard from "./WeatherCard"
 // import ErrorMessage from "./components/ErrorMessage";
 
@@ -15,7 +15,10 @@ const WeatherDashboard = () => {
 	const [weather, setWeather] = useState(null);
 
 	// State to store any error messages
-	const [error, setError] = useState("");
+    const [error, setError] = useState("");
+    
+	// Loading state
+	const [loading, setLoading] = useState(false);
 
 	/**
 	 * Function to fetch weather data using Axios
@@ -23,6 +26,7 @@ const WeatherDashboard = () => {
 	 */
 	const fetchWeather = async (searchCity) => {
 		try {
+			setLoading(true);
 			setError(""); // Reset previous errors
 
 			const res = await axios.get(
@@ -49,13 +53,25 @@ const WeatherDashboard = () => {
 				setError("An unexpected error occurred.");
 			}
 			setWeather(null); // Clear previous weather
+		} finally {
+			setLoading(false); // Stop loading
 		}
 	};
 
-	// Fetch weather for default city on mount
+	// Auto-refresh: fetch every 5 minutes
 	useEffect(() => {
-		fetchWeather(city);
-	}, []);
+		fetchWeather(city); // Fetch once on mount
+
+		const interval = setInterval(
+			() => {
+				fetchWeather(city);
+			},
+			5 * 60 * 1000,
+		); // 5 minutes in milliseconds
+
+		// Cleanup interval on unmount
+		return () => clearInterval(interval);
+	}, [city]);
 
 	/**
 	 * Handles search submitted from SearchBar
@@ -65,11 +81,23 @@ const WeatherDashboard = () => {
 		setCity(searchCity); // Update current city
 		fetchWeather(searchCity); // Fetch weather
 	};
+	// Manual refresh
+	const handleRefresh = () => {
+		fetchWeather(city);
+	};
 
 	return (
 		<div className="w-full flex flex-col items-center">
 			{/* Search input */}
-			{/* <SearchBar onSearch={handleSearch} /> */}
+			<SearchBar onSearch={handleSearch} />
+
+			{/* Refresh Button */}
+			<button
+				onClick={handleRefresh}
+				className="mb-4 bg-green-500 text-white px-4 py-2 rounded-lg transform transition-all hover:scale-105 hover:translate-y-0.5 duration-500 font-sans"
+			>
+				Refresh Weather
+			</button>
 
 			{/* Show error if exists
 			{error && <ErrorMessage message={error} />} */}
@@ -78,6 +106,6 @@ const WeatherDashboard = () => {
 			{weather && <WeatherCard weather={weather} />}
 		</div>
 	);
-};
+};;;;
 
 export default WeatherDashboard;

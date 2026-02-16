@@ -4,24 +4,26 @@ const WeatherCard = ({ weather }) => {
 	if (!weather) return null; // Prevent crash before data loads
 
 	return (
-		<div className="bg-blue-200 p-6 rounded-3xl shadow-lg w-fit max-w-md text-center mb-10 text-blue-700 font-sans">
+		<div className="bg-[url('/images/taylor-van-riper-yQorCngxzwI-unsplash.jpg')] bg-cover bg-center p-4 rounded-3xl shadow-lg w-3/5 max-w-md text-center mb-10 font-sans transition-all transform duration-600 ease-in-out hover:scales-105 hover:translate-y-1.5 hover:shadow-2xl">
 			{/* City Name */}
-			<h2 className="text-2xl font-bold mb-4">{weather.location.name}</h2>
+			<h2 className="text-4xl font-bold mb-4 text-blue-100">
+				{weather.location.name}
+			</h2>
 
 			{/* Weather Icon */}
 			<img
 				src={weather.current.condition.icon}
 				alt={weather.current.condition.text}
-				className="mx-auto"
+				className="mx-auto w-28 hover:scale-130 transition duration-700 ease-in-out"
 			/>
 
 			{/* Description */}
-			<p className="text-xl font-semibold mb-2">
+			<p className="text-2xl font-bold mb-2 text-blue-800">
 				{weather.current.condition.text}
 			</p>
 
 			{/* Details */}
-			<div className="flex flex-col gap-1 text-indigo-700">
+			<div className="flex flex-col gap-1 text-indigo-700 font-bold font-stretch-200%">
 				<p>Temperature: {weather.current.temp_c} °C</p>
 				<p>Humidity: {weather.current.humidity} %</p>
 				<p>Wind Speed: {weather.current.wind_kph} kph</p>
