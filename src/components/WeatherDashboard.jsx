@@ -65,7 +65,7 @@ const WeatherDashboard = ({theme}) => {
 		} catch (err) {
 			// Network or unexpected error
 			if (err.response) {
-				setError("invalid city. Please try again.");
+				setError("City not Found. Please try again.");
 			} else if (err.request) {
 				setError("Network error. Please try again.");
 			} else {
