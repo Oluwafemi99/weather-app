@@ -44,22 +44,36 @@ const WeatherDashboard = ({theme}) => {
 				},
 			);
 
-			setWeather(res.data); // Save API response
+			// WeatherAPI returns 200 even if city is invalid
+			if (res.data.error) {
+				// Map specific API errors to friendly messages
+				switch (res.data.error.code) {
+					case 1006:
+						setError("City not found. Please try a different city.");
+						break;
+					case 1002:
+						setError("API key invalid. Check your API key.");
+						break;
+					default:
+						setError(res.data.error.message || "Unknown API error");
+				}
+				setWeather(null); // clear previous weather
+				return;
+			}
+
+			setWeather(res.data); // save valid weather
 		} catch (err) {
-			// Handle different error cases
+			// Network or unexpected error
 			if (err.response) {
-				// API returned an error (e.g., city not found)
-				setError(err.response.data.message);
+				setError("invalid city. Please try again.");
 			} else if (err.request) {
-				// Network issues
 				setError("Network error. Please try again.");
 			} else {
-				// Other unexpected errors
 				setError("An unexpected error occurred.");
 			}
-			setWeather(null); // Clear prev weather
+			setWeather(null);
 		} finally {
-			setLoading(false); // Stop Loading
+			setLoading(false);
 		}
 	};
 
