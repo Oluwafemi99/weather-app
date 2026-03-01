@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios"; // Axios for API requests
 import SearchBar from "./SearchBar.jsx";
 import WeatherCard from "./WeatherCard"
+import ErrorMessage from "./ErrorMessage.jsx";
 // import ErrorMessage from "./components/ErrorMessage";
 
 // Replace with your OpenWeatherMap API key
@@ -99,8 +100,8 @@ const WeatherDashboard = () => {
 				Refresh Weather
 			</button>
 
-			{/* Show error if exists
-			{error && <ErrorMessage message={error} />} */}
+			{/* Show error if exists */}
+			{error && <ErrorMessage message={error} />}
 
 			{/* Show weather card if data is available */}
 			{weather && <WeatherCard weather={weather} />}
