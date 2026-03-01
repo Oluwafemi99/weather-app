@@ -1,12 +1,15 @@
 import React from "react";
 
-const WeatherCard = ({ weather }) => {
+const WeatherCard = ({ weather, theme }) => {
 	if (!weather) return null; // Prevent crash before data loads
 
 	return (
-		<div className="bg-[url('/images/taylor-van-riper-yQorCngxzwI-unsplash.jpg')] bg-cover bg-center p-4 rounded-3xl shadow-lg w-3/5 max-w-md text-center mb-10 font-sans transition-all transform duration-600 ease-in-out hover:scales-105 hover:translate-y-1.5 hover:shadow-2xl">
+		<div
+			className={`p-4 rounded-3xl shadow-lg w-3/5 max-w-md text-center mb-10 font-sans transition-all transform duration-600 ease-in-out hover:scales-105 hover:translate-y-1.5 hover:shadow-2xl
+			${theme === "dark" ? "bg-black opacity-50 text-white" : "bg-white opacity-60 bg-cover bg-center text-indigo-800"}`}
+		>
 			{/* City Name */}
-			<h2 className="text-4xl font-bold mb-4 text-blue-100">
+			<h2 className="text-4xl font-bold mb-4 wrap-break-words ">
 				{weather.location.name}
 			</h2>
 
@@ -18,12 +21,12 @@ const WeatherCard = ({ weather }) => {
 			/>
 
 			{/* Description */}
-			<p className="text-2xl font-bold mb-2 text-blue-800">
+			<p className="text-2xl font-bold mb-2">
 				{weather.current.condition.text}
 			</p>
 
 			{/* Details */}
-			<div className="flex flex-col gap-1 text-indigo-700 font-bold font-stretch-200%">
+			<div className="flex flex-col gap-1 font-bold font-stretch-200%">
 				<p>Temperature: {weather.current.temp_c} °C</p>
 				<p>Humidity: {weather.current.humidity} %</p>
 				<p>Wind Speed: {weather.current.wind_kph} kph</p>
