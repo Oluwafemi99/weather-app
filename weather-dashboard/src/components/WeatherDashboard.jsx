@@ -57,9 +57,9 @@ const WeatherDashboard = ({theme}) => {
 				// Other unexpected errors
 				setError("An unexpected error occurred.");
 			}
-			setWeather(null); // Clear previous weather
+			setWeather(null); // Clear prev weather
 		} finally {
-			setLoading(false); // Stop loading
+			setLoading(false); // Stop Loading
 		}
 	};
 
@@ -70,7 +70,7 @@ const WeatherDashboard = ({theme}) => {
 		}
 	}, []);
 
-	// Auto-refresh: fetch every 5 minutes
+	// Auto-Refresh: fetch every 5 minutes
 	useEffect(() => {
 		fetchWeather(city); // Fetch once on mount
 
@@ -115,7 +115,7 @@ const WeatherDashboard = ({theme}) => {
 			{/* Refresh Button */}
 			<button
 				onClick={handleRefresh}
-				className="text-indigo-900 border-2 border-white mb-5 h-10 w-50 font-bold text-2xl rounded-2xl bg-white opacity-60 transition-all hover:scale-105 ease-in-out hover:translate-y-1 duration-700 focus:outline-none focus:ring-2 focus:ring-blue-400 font-sans"
+				className="text-indigo-800 border-2 border-white mb-5 h-10 w-50 font-bold text-2xl rounded-2xl bg-white opacity-60 transition-all hover:scale-105 ease-in-out hover:translate-y-1 duration-700 focus:outline-none focus:ring-2 focus:ring-blue-400 font-sans"
 			>
 				Refresh Weather
 			</button>
